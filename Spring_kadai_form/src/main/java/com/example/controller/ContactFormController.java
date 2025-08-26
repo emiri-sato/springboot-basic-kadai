@@ -16,8 +16,10 @@ public class ContactFormController {
 	
 	@GetMapping("/form")
 	public String form(Model model) {
+		if(!model.containsAttribute("contactForm")) {
 		model.addAttribute("contactForm",new ContactForm());
-	return "contactFormView.html";
+		}
+	return "contactFormView";
 	}
 	
 	
@@ -26,13 +28,13 @@ public class ContactFormController {
 	
 	//バリエーションエラーがあったら終了
 		if(result.hasErrors()) {
-			redirectAttributes.addFlashAttribute("ContactForm",form);
+			redirectAttributes.addFlashAttribute("contactForm",form);
 			redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX
 				+Conventions.getVariableName(form),result);
-			return "contactFormView.html";
+			return "redirect:/form";
 		}
 		
 		model.addAttribute("contactForm",form);
-		return "confirmView.html";
+		return "confirmView";
 	}
 }
